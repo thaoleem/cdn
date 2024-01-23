@@ -1,0 +1,22 @@
+import { firebase } from "firebase-admin";
+
+firebase.initializeApp({
+  projectId: "YOUR_PROJECT_ID",
+});
+
+const db = firebase.firestore();
+
+export function getDocuments(userId) {
+  const collection = db.collection("data");
+
+  const query = collection.where("uid", "==", userId);
+
+  const snapshot = query.get();
+
+  const documents = [];
+  for (const document of snapshot.docs) {
+    documents.push(document.data());
+  }
+
+  return documents;
+}
